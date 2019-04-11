@@ -1,0 +1,20 @@
+Task :
+
+ a: Installing nltk and dowloading corpus(introduction)
+ b: (i):Importing Brown corpus
+	-Listing sub-section headers
+	-Loading data form one header
+    (ii):Importing Inaugral corpus
+	-Listing sub-section headers
+	-Loading data form one header
+ c: Listing any three lexicons(stopwords, cmudict, wordnet)
+ d: Demostration of basic NLP pipeline(tokenizer and Tweet tokenizer)
+ e: Stemmers -> Piece of text
+ f: Lemmatizer -> has rules, rturn base or dictionary form of the word k/as lemma
+ g: Vectorizer(Count vectorizer/ Tf_idf) and Similarity measures(cosine)
+ h: Gender Identifier based on last letter
+ 
+
+study:
+	similarity(manhattan simlarity/ euclids/ cosine)
+	-> cosine similarity: primitively used for plagiarism

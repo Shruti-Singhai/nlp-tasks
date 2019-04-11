@@ -1,0 +1,127 @@
+NLP CODES
+
+#Downloding nltk and brown corpus
+import nltk
+nltk.download()
+from nltk.corpus import brown
+
+#Getting different words for different categories in brown corpus
+from nltk.corpus import brown
+print(brown.categories())
+brown.words(categories='adventure')[:20]
+
+#Import Inaugral corpus and get 2009 Obama speech
+from nltk.corpus import inaugural
+print(inaugural.fileids())
+inaugural.words(fileids='2009-Obama.txt')[:100]
+
+#stopwords in difft languages:
+import nltk
+from nltk.corpus import stopwords
+stopwords.words('english')
+
+#cmu lexicon:
+entries = nltk.corpus.cmudict.entries()
+len(entries)
+for entry in entries[10000:10025]:
+	print(entry)
+
+#wordnet lexicon:
+from nltk.corpus import wordnet as wn
+wn.synsets('motorcar')
+wn.synsets('car.n.01').lemma_names()
+
+#sentence and word tokenizer:
+import nltk
+texts=[""""""]
+for text in texts:
+	sentences= nltk.sent_tokenize(text)
+	for sentence in sentences:
+		words=nltk.word_tokenize(sentence)
+		print(sentence)
+		tagged_words=nltk.pos_tag(words)
+		print(tagged_words)
+
+
+#twitter aware tokenizer:
+import nltk
+from nltk.tokenize import TweetTokenizer
+text='The Party was sooooo fun :D #superfun'
+twtkn=TweetTokenizer()
+twtkn.tokenize(text)
+
+
+#STEMMERS
+
+#Porter Stemmer
+import nltk
+from nltk.stem import PorterStemmer
+stemmerporter= PorterStemmer()
+stemmerporter.stem('working')>>work(normal working)
+stemmerporter.stem('happiness')>>happi(exception)
+
+#Lancaster Stemmer
+from nltk.stem import LancasterStemmer
+stemmerlancaster=LancasterStemmer()
+stemmerlancaster.stem('happiness')>>(normal)
+stemmerlancaster.stem('solitude')>>(excepton)
+
+#Regexp Stemmer
+from nltk.stem import RegexpStemmer
+stemmerregexp = RegexpStemmer('ing')
+stemmerregexp.stem('singing')>>(gives 's')
+##stemmerregexp = RegexpStemmer('ing$')
+##stemmerregexp.stem('singing')(gives 'sing')
+
+#Snowball Stemmer
+from nltk.stem import SnowballStemmer
+stemmersnowball=SnowballStemmer('english')
+stemmersnowball.stem('unhappiness')>>(exception)
+
+#Gender Identifier based on last letter
+def gender_features(word):
+    return{'last_letter':word[-1]}
+from nltk.corpus import names
+labeled_names=([(name,'male') for name in names.words('male.txt')]+[(name,'female') for name in names.words('female.txt')])
+import random
+random.shuffle(labeled_names)
+featureset=[(gender_features(n),gender) for (n,gender) in labeled_names]
+train_set,test= featureset[500:],featureset[:500]
+import nltk
+classifier= nltk.NaiveBayesClassifier.train(train_set)
+print(classifier.classify(gender_features('David')))
+print(classifier.classify(gender_features('Michelle')))
+print(nltk.classify.accuracy(classifier,test))
+
+#Lemmatizer
+from nltk.stem import WordNetLemmatizer
+lemmatizer= WordNetLemmatizer()
+example = "The Indian subcontinent was home to the urban Indus Valley Civilisation of the 3rd millennium BCE. In the following millennium, the oldest scriptures associated with Hinduism began to be composed. Social stratification, based on caste, emerged in the first millennium BCE, and Buddhism and Jainism arose. Early political consolidations took place under the Maurya and Gupta empires; later peninsular Middle Kingdoms influenced cultures as far as Southeast Asia. In the medieval era, Judaism, Zoroastrianism, Christianity, and Islam arrived, and Sikhism emerged, all adding to the region's diverse culture. Much of the north fell to the Delhi Sultanate; the south was united under the Vijayanagara Empire. The economy expanded in the 17th century in the Mughal Empire. In the mid-18th century, the subcontinent came under British East India Company rule, and in the mid-19th under British crown rule. A nationalist movement emerged in the late 19th century, which later, under Mahatma Gandhi, was noted for nonviolent resistance and led to India's independence in 1947."
+example=[lemmatizer.lemmatize(token) for token in example.split(" ")]
+print(" ".join(example))
+
+#VECTORIZERS
+
+#Count vectorizer
+from sklearn.feature_extraction.text import CountVectorizer
+vect = CountVectorizer(binary = True)
+corpus= ["CNN is good optical character recognition","optical character recognition is significant"]
+vect.fit(corpus)
+print(vect.transform(corpus).toarray())
+
+#Tf_idf Vectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+vect = TfidfVectorizer()
+corpus= ["CNN is good optical character recognition","optical character recognition is significant"]
+vect.fit(corpus)
+print(vect.transform(corpus).toarray())
+
+#Cosine Similarity
+import pandas as pd
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+similarity = cosine_similarity(vect.transform(["Tessaeract is an optical character recognition system","optical character recognition system is significant"]))
+print(similarity)
+
+
+
